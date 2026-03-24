@@ -1,0 +1,5 @@
+#!/Users/zaheerahmad/Desktop/customer_churn_project_ml/venv1/bin/python3.10
+
+import pydoc
+if __name__ == '__main__':
+    pydoc.cli()
