@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Churn Prediction</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #141e30, #243b55);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            width: 100%;
+            max-width: 850px;
+            border-radius: 18px;
+        }
+        .card-header {
+            background-color: #0d6efd;
+            color: white;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+        label {
+            font-weight: 500;
+        }
+        .btn-primary {
+            font-size: 1.1rem;
+            padding: 10px;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: white;
+        }
+        .prediction-box {
+            background-color: #198754;
+        }
+        .prob-box {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card shadow-lg">
+    <div class="card-header">
+        📊 Customer Churn Prediction
+    </div>
+
+    <div class="card-body text-dark">
+        <form action="{{ url_for('predict_datapoint') }}" method="post">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>Satisfaction Score</label>
+                    <input type="number" name="Satisfaction_Score" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Churn Score</label>
+                    <input type="number" name="Churn_Score" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Tenure in Months</label>
+                    <input type="number" name="Tenure_in_Months" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Monthly Charge</label>
+                    <input type="number" step="any" name="Monthly_Charge" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Total Long Distance Charges</label>
+                    <input type="number" step="any" name="Total_Long_Distance_Charges" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Number of Referrals</label>
+                    <input type="number" name="Number_of_Referrals" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>CLTV</label>
+                    <input type="number" name="CLTV" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Age</label>
+                    <input type="number" name="Age" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Dependents</label>
+                    <input type="number" name="Dependents" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Internet Service</label>
+                    <input type="number" name="Internet_Service" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Gender</label>
+                    <select name="Gender" class="form-control" required>
+                        <option disabled selected value="">Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Submit -->
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary">
+                    Predict Churn
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Prediction -->
+        {% if results %}
+        <div class="result-box prediction-box">
+            📢 Prediction: <strong>{{ results }}</strong>
+        </div>
+        {% endif %}
+
+        <!-- Probability + Progress -->
+        {% if prob is not none %}
+        <div class="result-box prob-box">
+            📊 Churn Probability: <strong>{{ prob }}%</strong>
+        </div>
+
+        <div class="progress mt-3">
+    <div 
+        class="progress-bar 
+        {% if prob is not none and prob > 70 %}
+    bg-danger
+        {% elif prob > 40 %}bg-warning
+        {% else %}bg-success
+        {% endif %}" 
+        role="progressbar"
+        style="width: {{ prob|float }}%;"
+        aria-valuenow="{{ prob|float }}" 
+        aria-valuemin="0" 
+        aria-valuemax="100">
+        {{ prob }}%
+    </div>
+</div>
+        {% endif %}
+
+    </div>
+</div>
+
+</body>
+</html>

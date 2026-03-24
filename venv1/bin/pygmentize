@@ -1,0 +1,6 @@
+#!/Users/zaheerahmad/Desktop/customer_churn_project_ml/venv1/bin/python3.10
+import sys
+from pygments.cmdline import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())

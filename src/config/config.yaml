@@ -1,0 +1,6 @@
+model_trainer:
+  test_size: 0.3
+  random_state: 42
+
+data_transformation:
+  target_column: Churn
